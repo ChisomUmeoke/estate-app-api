@@ -50,17 +50,17 @@ class UserModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
-    def test_create_properties(self):
+    def test_create_property(self):
         """Test creating a property is successful."""
         user = get_user_model().objects.create_user(
             'test@example.com',
             'testpass123',
         )
-        properties = models.Properties.objects.create(
+        property = models.Property.objects.create(
             user=user,
             city='lagos',
-            name='chisom apartment',
-            price=Decimal('5.50'),
+            name='executive apartment',
+            price=Decimal('10000'),
         )
 
-        self.assertEqual(str(properties), properties.title)
+        self.assertEqual(str(property), property.name)
