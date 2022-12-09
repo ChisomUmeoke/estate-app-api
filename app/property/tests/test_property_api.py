@@ -12,11 +12,17 @@ from rest_framework.test import APIClient
 
 from core.models import Property
 
-from property.serializers import PropertySerializer
+from property.serializers import(
+     PropertySerializer,
+     PropertyDetailSerializer
+)
 
 
 PROPERTIES_URL = reverse('property:property-list')
 
+def detail_url(property_id):
+    """Create and return a property detail URL."""
+    return reverse('property:property-detail', args=[property_id])
 
 def create_property(user, **params):
     """Create and return a sample propert."""
@@ -81,4 +87,14 @@ class PrivatePropertyApiTests(TestCase):
         properties = Property.objects.filter(user=self.user)
         serializer = PropertySerializer(properties, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
+
+    def test_get_property_detail(self):
+        """Test get property detail."""
+        property = create_property(user=self.user)
+
+        url = detail_url(property.id)
+        res = self.client.get(url)
+
+        serializer = PropertyDetailSerializer(property)
         self.assertEqual(res.data, serializer.data)

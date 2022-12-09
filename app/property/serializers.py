@@ -13,3 +13,9 @@ class PropertySerializer(serializers.ModelSerializer):
         model = Property
         fields = ['id', 'name', 'city', 'price']
         read_only_fields = ['id']
+
+class PropertyDetailSerializer(PropertySerializer):
+    """Serializer for recipe detail view."""
+
+    class Meta(PropertySerializer.Meta):
+        fields = PropertySerializer.Meta.fields + ['name']
