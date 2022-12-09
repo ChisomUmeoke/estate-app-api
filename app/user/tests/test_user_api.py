@@ -157,7 +157,6 @@ class PrivateUserApiTests(TestCase):
                    'first_name': 'Updated name',
                    'password': 'newpassword123',
                    'last_name': 'Roberts',
-                   'current_password': self.password,
                    }
 
         res = self.client.patch(ME_URL, payload)
@@ -165,5 +164,5 @@ class PrivateUserApiTests(TestCase):
         self.user.refresh_from_db()
         self.assertEqual(self.user.first_name, payload['first_name'])
         self.assertEqual(self.user.last_name, payload['last_name'])
-        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertFalse(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
