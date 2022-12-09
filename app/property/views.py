@@ -27,3 +27,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
             return serializers.PropertySerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new property."""
+        serializer.save(user=self.request.user)
