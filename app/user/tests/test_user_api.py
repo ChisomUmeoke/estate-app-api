@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from rest_framework.test import APIClient
 from rest_framework import status
+from user.serializers import UserSerializer
 
 
 
@@ -139,11 +140,9 @@ class PrivateUserApiTests(TestCase):
         """Test retrieving profile for logged in user."""
         res = self.client.get(ME_URL)
 
+        serializer = UserSerializer(self.user, many=False)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, {
-            'first_name': self.user.first_name,
-            'email': self.user.email,
-        })
+        self.assertEqual(res.data, serializer.data)
 
     def test_post_me_not_allowed(self):
         """Test POST is not allowed for the me endpoint."""
@@ -158,13 +157,12 @@ class PrivateUserApiTests(TestCase):
                    'first_name': 'Updated name',
                    'password': 'newpassword123',
                    'last_name': 'Roberts',
-                   'current_password': self.password,
                    }
 
         res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.first_name, payload['first_name'])
-        self.assertEqual(self.user.first_name, payload['last_name'])
-        self.assertTrue(self.user.password(payload['password']))
+        self.assertEqual(self.user.last_name, payload['last_name'])
+        self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
