@@ -9,7 +9,6 @@ from core.models import Property
 from property import serializers
 
 
-
 class PropertyViewSet(viewsets.ModelViewSet):
     """View for manage property APIs."""
     serializer_class = serializers.PropertyDetailSerializer

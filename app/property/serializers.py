@@ -14,6 +14,7 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'city', 'price']
         read_only_fields = ['id']
 
+
 class PropertyDetailSerializer(PropertySerializer):
     """Serializer for recipe detail view."""
 

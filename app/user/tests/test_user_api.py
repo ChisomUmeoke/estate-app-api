@@ -11,10 +11,10 @@ from rest_framework import status
 from user.serializers import UserSerializer
 
 
-
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
+
 
 def create_user(**params):
     """Create and return a new user."""
@@ -33,7 +33,7 @@ class PublicUserApiTests(TestCase):
             'email': 'test@example.com',
             'password': 'testpass123',
             'first_name': 'Test',
-            'last_name': 'Name' ,
+            'last_name': 'Name',
             'phone_number': '123456'
         }
         res = self.client.post(CREATE_USER_URL, payload)
@@ -49,7 +49,7 @@ class PublicUserApiTests(TestCase):
             'email': 'test@example.com',
             'password': 'testpass123',
             'first_name': 'Test',
-            'last_name': 'Name' ,
+            'last_name': 'Name',
             'phone_number': '123456'
         }
         create_user(**payload)
@@ -70,7 +70,6 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
-
 
     def test_create_token_for_user(self):
         """Test generates token for valid credentials."""
