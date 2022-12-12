@@ -12,7 +12,7 @@ from rest_framework.test import APIClient
 
 from core.models import Property
 
-from property.serializers import(
+from property.serializers import (
      PropertySerializer,
      PropertyDetailSerializer
 )
@@ -20,9 +20,11 @@ from property.serializers import(
 
 PROPERTIES_URL = reverse('property:property-list')
 
+
 def detail_url(property_id):
     """Create and return a property detail URL."""
     return reverse('property:property-detail', args=[property_id])
+
 
 def create_property(user, **params):
     """Create and return a sample propert."""
